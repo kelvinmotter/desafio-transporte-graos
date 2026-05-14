@@ -11,6 +11,35 @@ API REST para ingestão, estabilização e armazenamento de pesagens de balança
 - Flyway (migrations)
 - Swagger/OpenAPI
 
+## Arquitetura (System Design)
+
+Abaixo está o fluxo de dados do sistema, demonstrando como as leituras de alta frequência da balança são processadas e armazenadas:
+
+```mermaid
+flowchart TD
+    ESP32["📟 Balança (ESP32)"]
+    User["💻 Usuário / Dashboard"]
+
+    subgraph "Backend"
+        API["📡 API de Ingestão\n(/api/weighing/readings)"]
+        StabAlgo["⚙️ Algoritmo de Estabilização"]
+        BusinessAPI["📊 API Rest\n(CRUDs e Relatórios)"]
+    end
+
+    subgraph "Armazenamento"
+        Redis[("⚡ Redis")]
+        Postgres[("🐘 PostgreSQL")]
+    end
+
+    ESP32 -- "1. POST Leituras (100ms)\n[X-Scale-Api-Key]" --> API
+    API --> StabAlgo
+    StabAlgo -- "2. Salva na Lista & Busca\núltimas leituras (TTL 30s)" --> Redis
+    StabAlgo -- "3. Salva pesagem se\nestabilizado" --> Postgres
+    
+    User -- "4. GET Relatórios e\nGerenciamento" --> BusinessAPI
+    BusinessAPI -- "5. Consultas" --> Postgres
+```
+
 ## Como executar
 
 ### Pré-requisitos
