@@ -18,27 +18,22 @@ API REST para ingestão, estabilização e armazenamento de pesagens de balança
 - Java 25
 - Maven
 
-### 1. Subir infraestrutura (PostgreSQL + Redis)
+### 1. Executar a aplicação e infraestrutura (PostgreSQL + Redis + Aplicação)
 ```bash
 docker-compose up -d
 ```
 
-### 2. Executar a aplicação
-```bash
-mvn spring-boot:run
-```
-
-### 3. Acessar Swagger UI
+### 2. Acessar Swagger UI
 ```
 http://localhost:8080/swagger-ui.html
 ```
 
-### 4. Acessar Dashboard (Relatórios)
+### 3. Relatórios
 ```
 http://localhost:8080/index.html
 ```
 
-## Dados de exemplo (seed)
+## Dados de exemplo
 
 A aplicação já vem com dados pré-cadastrados:
 
@@ -64,14 +59,16 @@ curl -X POST http://localhost:8080/api/weighing/readings \
 
 Quando 10 leituras consecutivas tiverem desvio padrão menor que 50kg, o peso é considerado estabilizado e a pesagem é persistida automaticamente.
 
+> **Nota de Configuração:** Você pode ajustar alguns parâmetros no arquivo `src/main/resources/application.yml`, nas propriedades `stabilization.std-dev-threshold` e `stabilization.window-size`.
+
 ## Algoritmo de Estabilização
 
 **Estratégia: Sliding Window + Desvio Padrão**
 
 1. Cada leitura é armazenada numa Redis List (chave: `scale:{id}:plate:{plate}`)
-2. A cada nova leitura, as últimas 10 são analisadas
-3. Se o desvio padrão da janela < 50kg → peso estabilizado (média da janela)
-4. TTL de 30s no Redis limpa buffers órfãos automaticamente
+2. A cada nova leitura, a janela (ex: últimas 10 leituras) é analisada
+3. Se o desvio padrão da janela for menor que o limiar configurado (ex: 50kg) → peso estabilizado (média da janela)
+4. TTL configurável (ex: 30s) no Redis limpa buffers órfãos automaticamente
 
 **Por que Redis?** O ESP32 envia a cada 100ms — Redis suporta essa frequência com latência de ~1ms, e o TTL elimina a necessidade de scheduler para limpeza.
 
