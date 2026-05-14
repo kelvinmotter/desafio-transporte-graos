@@ -33,7 +33,7 @@ flowchart TD
 
     ESP32 -- "1. POST Leituras (100ms)\n[X-Scale-Api-Key]" --> API
     API --> StabAlgo
-    StabAlgo -- "2. Salva na Lista & Busca\núltimas leituras (TTL 30s)" --> Redis
+    StabAlgo -- "2. Salva na Lista e Busca\núltimas leituras (TTL 30s)" --> Redis
     StabAlgo -- "3. Salva pesagem se\nestabilizado" --> Postgres
     
     User -- "4. GET Relatórios e\nGerenciamento" --> BusinessAPI
