@@ -1,0 +1,336 @@
+{
+	"info": {
+		"name": "Pesagem de Grãos - Desafio Serasa",
+		"description": "API para ingestão, estabilização e consulta de pesagens de balanças de grãos.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "scaleApiKey",
+			"value": "sk-balanca-001-abc123"
+		}
+	],
+	"item": [
+		{
+			"name": "Filiais",
+			"item": [
+				{
+					"name": "Listar Filiais",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/branches"
+					}
+				},
+				{
+					"name": "Buscar Filial por ID",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/branches/a1b2c3d4-0001-0001-0001-000000000001"
+					}
+				},
+				{
+					"name": "Criar Filial",
+					"request": {
+						"method": "POST",
+						"url": "{{baseUrl}}/api/branches",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Filial Maringá\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Atualizar Filial",
+					"request": {
+						"method": "PUT",
+						"url": "{{baseUrl}}/api/branches/a1b2c3d4-0001-0001-0001-000000000001",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Filial Curitiba - Centro\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Deletar Filial",
+					"request": {
+						"method": "DELETE",
+						"url": "{{baseUrl}}/api/branches/a1b2c3d4-0001-0001-0001-000000000001"
+					}
+				}
+			]
+		},
+		{
+			"name": "Caminhões",
+			"item": [
+				{
+					"name": "Listar Caminhões",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/trucks"
+					}
+				},
+				{
+					"name": "Buscar Caminhão por ID",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/trucks/c1b2c3d4-0003-0003-0003-000000000001"
+					}
+				},
+				{
+					"name": "Criar Caminhão",
+					"request": {
+						"method": "POST",
+						"url": "{{baseUrl}}/api/trucks",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"plate\": \"NEW1A00\",\n  \"tare\": 8800.0,\n  \"branchId\": \"a1b2c3d4-0001-0001-0001-000000000001\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Atualizar Caminhão",
+					"request": {
+						"method": "PUT",
+						"url": "{{baseUrl}}/api/trucks/c1b2c3d4-0003-0003-0003-000000000001",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"plate\": \"ABC1D23\",\n  \"tare\": 8600.0,\n  \"branchId\": \"a1b2c3d4-0001-0001-0001-000000000001\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Deletar Caminhão",
+					"request": {
+						"method": "DELETE",
+						"url": "{{baseUrl}}/api/trucks/c1b2c3d4-0003-0003-0003-000000000001"
+					}
+				}
+			]
+		},
+		{
+			"name": "Tipos de Grão",
+			"item": [
+				{
+					"name": "Listar Grãos",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/grain-types"
+					}
+				},
+				{
+					"name": "Buscar Grão por ID",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/grain-types/b1b2c3d4-0002-0002-0002-000000000001"
+					}
+				},
+				{
+					"name": "Criar Grão",
+					"request": {
+						"method": "POST",
+						"url": "{{baseUrl}}/api/grain-types",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Arroz\",\n  \"purchasePricePerTon\": 1800.00\n}"
+						}
+					}
+				},
+				{
+					"name": "Atualizar Grão",
+					"request": {
+						"method": "PUT",
+						"url": "{{baseUrl}}/api/grain-types/b1b2c3d4-0002-0002-0002-000000000001",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Soja\",\n  \"purchasePricePerTon\": 1600.00\n}"
+						}
+					}
+				},
+				{
+					"name": "Deletar Grão",
+					"request": {
+						"method": "DELETE",
+						"url": "{{baseUrl}}/api/grain-types/b1b2c3d4-0002-0002-0002-000000000001"
+					}
+				}
+			]
+		},
+		{
+			"name": "Balanças",
+			"item": [
+				{
+					"name": "Listar Balanças",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/scales"
+					}
+				},
+				{
+					"name": "Buscar Balança por ID",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/scales/d1b2c3d4-0004-0004-0004-000000000001"
+					}
+				},
+				{
+					"name": "Criar Balança",
+					"request": {
+						"method": "POST",
+						"url": "{{baseUrl}}/api/scales",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"SCALE-003\",\n  \"branchId\": \"a1b2c3d4-0001-0001-0001-000000000001\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Atualizar Balança",
+					"request": {
+						"method": "PUT",
+						"url": "{{baseUrl}}/api/scales/d1b2c3d4-0004-0004-0004-000000000001",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"SCALE-001-UPDATED\",\n  \"branchId\": \"a1b2c3d4-0001-0001-0001-000000000001\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Deletar Balança",
+					"request": {
+						"method": "DELETE",
+						"url": "{{baseUrl}}/api/scales/d1b2c3d4-0004-0004-0004-000000000001"
+					}
+				}
+			]
+		},
+		{
+			"name": "Transações de Transporte",
+			"item": [
+				{
+					"name": "Listar Transações",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/transactions"
+					}
+				},
+				{
+					"name": "Buscar Transação por ID",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/transactions/e1b2c3d4-0005-0005-0005-000000000001"
+					}
+				},
+				{
+					"name": "Criar Transação",
+					"request": {
+						"method": "POST",
+						"url": "{{baseUrl}}/api/transactions",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"truckId\": \"c1b2c3d4-0003-0003-0003-000000000002\",\n  \"grainTypeId\": \"b1b2c3d4-0002-0002-0002-000000000002\"\n}"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Pesagem (ESP32)",
+			"item": [
+				{
+					"name": "Enviar Leitura (simula ESP32)",
+					"request": {
+						"method": "POST",
+						"url": "{{baseUrl}}/api/weighing/readings",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" },
+							{ "key": "X-Scale-Api-Key", "value": "{{scaleApiKey}}" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"SCALE-001\",\n  \"plate\": \"ABC1D23\",\n  \"weight\": 25430.0\n}"
+						}
+					}
+				},
+				{
+					"name": "Enviar Leitura SEM Api Key (401)",
+					"request": {
+						"method": "POST",
+						"url": "{{baseUrl}}/api/weighing/readings",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"SCALE-001\",\n  \"plate\": \"ABC1D23\",\n  \"weight\": 25430.0\n}"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Relatórios",
+			"item": [
+				{
+					"name": "Resumo por Grão",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/reports/grain-summary"
+					}
+				},
+				{
+					"name": "Histórico de Pesagens (por período)",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{baseUrl}}/api/reports/weighing-history?startDate=2025-01-01T00:00:00Z&endDate=2027-12-31T23:59:59Z",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "reports", "weighing-history"],
+							"query": [
+								{ "key": "startDate", "value": "2025-01-01T00:00:00Z" },
+								{ "key": "endDate", "value": "2027-12-31T23:59:59Z" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Pesagens por Placa",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/api/reports/weighing-history/plate/ABC1D23"
+					}
+				}
+			]
+		}
+	]
+}

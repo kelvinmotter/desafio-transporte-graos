@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dashboard de Relatórios - Sistema de Pesagem de Grãos">
+    <title>Dashboard | Pesagem de Grãos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                    <path d="M2 17l10 5 10-5"/>
+                    <path d="M2 12l10 5 10-5"/>
+                </svg>
+            </div>
+            <span class="brand-text">GrainWeigh</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-section="overview">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                </svg>
+                <span>Visão Geral</span>
+            </a>
+            <a href="#" class="nav-item" data-section="weighings">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20V10"/>
+                    <path d="M18 20V4"/>
+                    <path d="M6 20v-4"/>
+                </svg>
+                <span>Pesagens</span>
+            </a>
+            <a href="#" class="nav-item" data-section="transactions">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 3h5v5"/>
+                    <path d="M8 3H3v5"/>
+                    <path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/>
+                    <path d="m15 9 6-6"/>
+                </svg>
+                <span>Transações</span>
+            </a>
+            <a href="#" class="nav-item" data-section="fleet">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 17h4V5H2v12h3"/>
+                    <path d="M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5v8h1"/>
+                    <circle cx="7.5" cy="17.5" r="2.5"/>
+                    <circle cx="17.5" cy="17.5" r="2.5"/>
+                </svg>
+                <span>Frota</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="/swagger-ui.html" target="_blank" class="nav-item swagger-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <line x1="10" y1="9" x2="8" y2="9"/>
+                </svg>
+                <span>Swagger API</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="3" y1="18" x2="21" y2="18"/>
+                    </svg>
+                </button>
+                <div>
+                    <h1 class="page-title" id="pageTitle">Visão Geral</h1>
+                    <p class="page-subtitle" id="pageSubtitle">Resumo operacional em tempo real</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Sistema Online</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- SECTION: Overview -->
+        <section class="section active" id="section-overview">
+            <!-- KPI Cards -->
+            <div class="kpi-grid" id="kpiGrid">
+                <div class="kpi-card" id="kpiTotalWeighings">
+                    <div class="kpi-icon kpi-icon--blue">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/>
+                        </svg>
+                    </div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Total de Pesagens</span>
+                        <span class="kpi-value" id="kpiTotalWeighingsValue">—</span>
+                    </div>
+                </div>
+                <div class="kpi-card" id="kpiTotalWeight">
+                    <div class="kpi-icon kpi-icon--emerald">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+                        </svg>
+                    </div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Peso Líquido Total</span>
+                        <span class="kpi-value" id="kpiTotalWeightValue">—</span>
+                    </div>
+                </div>
+                <div class="kpi-card" id="kpiTotalRevenue">
+                    <div class="kpi-icon kpi-icon--amber">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                    </div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Custo Total de Cargas</span>
+                        <span class="kpi-value" id="kpiTotalRevenueValue">—</span>
+                    </div>
+                </div>
+                <div class="kpi-card" id="kpiActiveTransactions">
+                    <div class="kpi-icon kpi-icon--rose">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/>
+                        </svg>
+                    </div>
+                    <div class="kpi-info">
+                        <span class="kpi-label">Transações Ativas</span>
+                        <span class="kpi-value" id="kpiActiveTransactionsValue">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="charts-grid">
+                <!-- Grain Summary Chart -->
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Resumo por Tipo de Grão</h2>
+                        <span class="card-badge">Relatório</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container" id="grainChartContainer">
+                            <div class="loading-spinner" id="grainChartLoading">
+                                <div class="spinner"></div>
+                                <span>Carregando dados...</span>
+                            </div>
+                            <canvas id="grainBarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grain Cost Donut -->
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Distribuição de Custos</h2>
+                        <span class="card-badge">Relatório</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container" id="costChartContainer">
+                            <div class="loading-spinner" id="costChartLoading">
+                                <div class="spinner"></div>
+                                <span>Carregando dados...</span>
+                            </div>
+                            <canvas id="costDonutChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grain Summary Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Detalhamento por Grão</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-wrapper">
+                        <table class="data-table" id="grainSummaryTable">
+                            <thead>
+                                <tr>
+                                    <th>Tipo de Grão</th>
+                                    <th>Pesagens</th>
+                                    <th>Peso Líquido (kg)</th>
+                                    <th>Peso Líquido (ton)</th>
+                                    <th>Custo Total</th>
+                                    <th>Custo Médio / Pesagem</th>
+                                </tr>
+                            </thead>
+                            <tbody id="grainSummaryBody">
+                                <tr><td colspan="6" class="table-empty">Carregando...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Weighings -->
+        <section class="section" id="section-weighings">
+            <!-- Filters -->
+            <div class="card filter-card">
+                <div class="card-header">
+                    <h2 class="card-title">Filtros de Pesagem</h2>
+                </div>
+                <div class="card-body">
+                    <div class="filter-grid">
+                        <div class="filter-group">
+                            <label class="filter-label" for="filterStartDate">Data Início</label>
+                            <input type="datetime-local" id="filterStartDate" class="filter-input">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label" for="filterEndDate">Data Fim</label>
+                            <input type="datetime-local" id="filterEndDate" class="filter-input">
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label" for="filterPlate">Placa do Caminhão</label>
+                            <input type="text" id="filterPlate" class="filter-input" placeholder="Ex: ABC1D23" maxlength="7">
+                        </div>
+                        <div class="filter-actions">
+                            <button class="btn btn-primary" id="btnSearchDate" onclick="searchWeighingsByDate()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                                </svg>
+                                Por Período
+                            </button>
+                            <button class="btn btn-secondary" id="btnSearchPlate" onclick="searchWeighingsByPlate()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M10 17h4V5H2v12h3"/><path d="M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5v8h1"/>
+                                    <circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>
+                                </svg>
+                                Por Placa
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weighings Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Histórico de Pesagens</h2>
+                    <span class="card-count" id="weighingCount"></span>
+                </div>
+                <div class="card-body">
+                    <div class="table-wrapper">
+                        <table class="data-table" id="weighingsTable">
+                            <thead>
+                                <tr>
+                                    <th>Data/Hora</th>
+                                    <th>Placa</th>
+                                    <th>Grão</th>
+                                    <th>Peso Bruto (kg)</th>
+                                    <th>Tara (kg)</th>
+                                    <th>Peso Líquido (kg)</th>
+                                    <th>Custo da Carga</th>
+                                    <th>Balança</th>
+                                </tr>
+                            </thead>
+                            <tbody id="weighingsBody">
+                                <tr><td colspan="8" class="table-empty">Use os filtros acima para buscar pesagens</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Transactions -->
+        <section class="section" id="section-transactions">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Transações de Transporte</h2>
+                    <span class="card-count" id="transactionCount"></span>
+                </div>
+                <div class="card-body">
+                    <div class="table-wrapper">
+                        <table class="data-table" id="transactionsTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Placa</th>
+                                    <th>Tipo de Grão</th>
+                                    <th>Status</th>
+                                    <th>Início</th>
+                                    <th>Fim</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionsBody">
+                                <tr><td colspan="6" class="table-empty">Carregando...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Fleet -->
+        <section class="section" id="section-fleet">
+            <div class="fleet-grid">
+                <!-- Trucks -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Caminhões Cadastrados</h2>
+                        <span class="card-count" id="truckCount"></span>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-wrapper">
+                            <table class="data-table" id="trucksTable">
+                                <thead>
+                                    <tr>
+                                        <th>Placa</th>
+                                        <th>Tara (kg)</th>
+                                        <th>Filial</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="trucksBody">
+                                    <tr><td colspan="3" class="table-empty">Carregando...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Branches & Scales -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Filiais e Balanças</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-wrapper">
+                            <table class="data-table" id="scalesTable">
+                                <thead>
+                                    <tr>
+                                        <th>Código da Balança</th>
+                                        <th>Filial</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="scalesBody">
+                                    <tr><td colspan="2" class="table-empty">Carregando...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grain Types -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Tipos de Grãos</h2>
+                </div>
+                <div class="card-body">
+                    <div class="grain-cards-grid" id="grainTypesCards">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <span>Carregando...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
